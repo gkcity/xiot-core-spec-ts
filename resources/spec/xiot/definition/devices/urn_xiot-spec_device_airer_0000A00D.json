@@ -1,6 +1,0 @@
-{
-  "type" : "urn:xiot-spec:device:airer:0000A00D",
-  "description" : "Airer",
-  "required-services" : [ "urn:xiot-spec:service:device-information:00007801", "urn:xiot-spec:service:airer:00007817" ],
-  "optional-services" : [ "urn:xiot-spec:service:light:00007802" ]
-}

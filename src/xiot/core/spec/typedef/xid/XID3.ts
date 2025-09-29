@@ -1,34 +1,46 @@
 export class XID3 {
-    public iid: number;
-    public siid: number;
-    public did: string;
-    public value: string | null = null;
+  public iid = 0;
 
-    constructor(did: string, siid: number, iid: number) {
-        this.did = did;
-        this.siid = siid;
-        this.iid = iid;
+  public siid = 0;
+
+  public did = '';
+
+  public valid = true;
+
+  constructor(s?: string, exception = false) {
+    if (s) {
+      this.parse(s, exception);
+    }
+  }
+
+  parse(value: string, exception = false): void {
+    if (value == null) {
+      this.fail('value is null', exception);
+    } else {
+      const id = value.split('.');
+      if (id.length !== 3) {
+        this.fail('value invalid', exception);
+      }
+
+      this.did = id[0];
+      this.siid = Number.parseInt(id[1], 10);
+      this.iid = Number.parseInt(id[2], 10);
+    }
+  }
+
+  private fail(msg: string, exception: boolean): void {
+    if (exception) {
+      throw new Error(msg);
     }
 
-    static parseString(value: string): XID3 {
-        const xid = new XID3('', 0, 0);
-        xid.value = value;
+    this.valid = false;
+  }
 
-        const id = value.split('.');
-        if (id.length === 3) {
-            xid.did = id[0];
-            xid.siid = Number.parseInt(id[1], 10);
-            xid.iid = Number.parseInt(id[2], 10);
-        }
-
-        return xid;
+  toString(): string {
+    if (this.valid) {
+      return `${this.did}.${this.siid}.${this.iid}`;
     }
 
-    toString(): string {
-        if (this.value == null) {
-            this.value = this.did + '.' + this.siid + '.' + this.iid;
-        }
-
-        return this.value;
-    }
+    return '';
+  }
 }

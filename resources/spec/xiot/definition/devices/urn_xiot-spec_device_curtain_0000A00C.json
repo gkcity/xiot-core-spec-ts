@@ -1,5 +1,0 @@
-{
-  "type" : "urn:xiot-spec:device:curtain:0000A00C",
-  "description" : "Curtain",
-  "required-services" : [ "urn:xiot-spec:service:device-information:00007801", "urn:xiot-spec:service:curtain:00007816" ]
-}

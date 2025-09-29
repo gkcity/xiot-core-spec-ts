@@ -1,6 +1,0 @@
-{
-  "type" : "urn:xiot-spec:device:air-purifier:0000A007",
-  "description" : "Air Purifier",
-  "required-services" : [ "urn:xiot-spec:service:device-information:00007801", "urn:xiot-spec:service:air-purifier:00007811", "urn:xiot-spec:service:environment:0000780A", "urn:xiot-spec:service:filter:0000780B" ],
-  "optional-services" : [ "urn:xiot-spec:service:indicator-light:00007803", "urn:xiot-spec:service:alarm:00007804", "urn:xiot-spec:service:screen:00007806", "urn:xiot-spec:service:physical-controls-locked:00007807" ]
-}

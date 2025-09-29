@@ -1,40 +1,55 @@
-import {ActionType, Argument} from '../../../../..';
+import {ActionType} from '../definition/urn/ActionType';
+import {Argument} from '../instance/Argument';
 
 /**
  * ouyang
  */
 export class ActionTemplate {
+  iid: number;
 
-    iid: number;
-    required: boolean;
-    type: ActionType;
-    description: Map<string, string> = new Map<string, string>();
-    in: Map<number, Argument> = new Map<number, Argument>();
-    out: Map<number, Argument> = new Map<number, Argument>();
+  required: boolean;
 
-    constructor(iid: number,
-                required: boolean,
-                type: ActionType,
-                description: Map<string, string>,
-                argumentsIn: Argument[],
-                argumentsOut: Argument[]) {
-        this.iid = iid;
-        this.required = required;
-        this.type = type;
+  type: ActionType;
 
-        if (description != null) {
-            this.description = description;
-        }
+  description: Map<string, string> = new Map<string, string>();
 
-        argumentsIn.forEach(x => this.in.set(x.piid, x));
-        argumentsOut.forEach(x => this.out.set(x.piid, x));
+  in: Map<number, Argument> = new Map<number, Argument>();
+
+  out: Map<number, Argument> = new Map<number, Argument>();
+
+  source: string;
+
+  constructor(
+    iid: number,
+    required: boolean,
+    type: ActionType,
+    description: Map<string, string>,
+    argumentsIn: Argument[],
+    argumentsOut: Argument[],
+    source: string
+  ) {
+    this.iid = iid;
+    this.required = required;
+    this.source = source;
+    this.type = type;
+
+    if (description != null) {
+      this.description = description;
     }
 
-    getArgumentsIn(): Argument[] {
-        return Array.from(this.in.values());
-    }
+    argumentsIn.forEach(x => {
+      return this.in.set(x.piid, x);
+    });
+    argumentsOut.forEach(x => {
+      return this.out.set(x.piid, x);
+    });
+  }
 
-    getArgumentsOut(): Argument[] {
-        return Array.from(this.out.values());
-    }
+  getArgumentsIn(): Argument[] {
+    return Array.from(this.in.values());
+  }
+
+  getArgumentsOut(): Argument[] {
+    return Array.from(this.out.values());
+  }
 }

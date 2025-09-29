@@ -1,33 +1,45 @@
-import {EventType, Argument} from '../../../../..';
+import {EventType} from '../definition/urn/EventType';
+import {Argument} from '../instance/Argument';
 
 /**
  * ouyang
  */
 export class EventTemplate {
+  iid: number;
 
-    iid: number;
-    required: boolean;
-    type: EventType;
-    description: Map<string, string> = new Map<string, string>();
-    arguments: Map<number, Argument> = new Map<number, Argument>();
+  required: boolean;
 
-    constructor(iid: number,
-                required: boolean,
-                type: EventType,
-                description: Map<string, string>,
-                list: Argument[]) {
-        this.iid = iid;
-        this.required = required;
-        this.type = type;
+  type: EventType;
 
-        if (description != null) {
-            this.description = description;
-        }
+  description: Map<string, string> = new Map<string, string>();
 
-        list.forEach(x => this.arguments.set(x.piid, x));
+  arguments: Map<number, Argument> = new Map<number, Argument>();
+
+  source: string;
+
+  constructor(
+    iid: number,
+    required: boolean,
+    type: EventType,
+    description: Map<string, string>,
+    list: Argument[],
+    source: string
+  ) {
+    this.iid = iid;
+    this.required = required;
+    this.source = source;
+    this.type = type;
+
+    if (description != null) {
+      this.description = description;
     }
 
-    getArguments(): Argument[] {
-        return Array.from(this.arguments.values());
-    }
+    list.forEach(x => {
+      return this.arguments.set(x.piid, x);
+    });
+  }
+
+  getArguments(): Argument[] {
+    return Array.from(this.arguments.values());
+  }
 }

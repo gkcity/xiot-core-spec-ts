@@ -1,57 +1,43 @@
-import { expect } from 'chai';
-import {diff} from 'yajsondiff';
-import 'mocha';
-import * as fs from 'async-file';
-import {ActionOperationCodec} from '../../../../../../src';
+import { expect } from 'chai'
+import 'mocha'
+import { readJsonSync } from 'fs-extra'
+import { sync as globSync } from 'glob'
+import { isEqual } from 'lodash'
+import {ActionOperationCodec} from "../../../../../../src";
+// import { ActionOperationCodec } from '@/index'
 
-describe('ActionOperationCodec.Request', async () => {
+describe('ActionOperationCodec.Request', () => {
+  const files = globSync('resources/spec/operation/action/request/*.json')
+  files.forEach((v: string) => {
+    it(`check: ${v}`, () => {
+      const oldObject = readJsonSync(v)
+      const actions = ActionOperationCodec.Query.decodeArray(oldObject.actions)
+      const newObject = {
+        actions: ActionOperationCodec.Query.encodeArray(actions)
+      }
+      if (isEqual(oldObject, newObject)) {
+        expect(true).to.equal(true)
+      } else {
+        expect(JSON.stringify(oldObject)).to.equal(JSON.stringify(newObject))
+      }
+    })
+  })
+})
 
-    const folder = './resources/operation/action/request/';
-    const dir = await fs.readdir(folder);
-
-    it('reading request, folder: ' + folder, () => {
-        expect(true).to.equal(true);
-    });
-
-    for (const file of dir) {
-        it('  check: ' + file, async () => {
-            const a = await fs.readFile(folder + file);
-            const json = JSON.parse(a.toString());
-            const query = ActionOperationCodec.decodeQuery(json);
-
-            const differences = diff(json, ActionOperationCodec.encodeQuery(query));
-            if (differences == null) {
-                expect(true).to.equal(true);
-            } else {
-                console.log('differences: ', differences);
-                expect(JSON.stringify(json)).to.equal(JSON.stringify(ActionOperationCodec.encodeQuery(query)));
-            }
-        });
-    }
-});
-
-describe('ActionOperationCodec.Response', async () => {
-
-    const folder = './resources/operation/action/response/';
-    const dir = await fs.readdir(folder);
-
-    it('reading response, folder: ' + folder, () => {
-        expect(true).to.equal(true);
-    });
-
-    for (const file of dir) {
-        it('  check: ' + file, async () => {
-            const a = await fs.readFile(folder + file);
-            const json = JSON.parse(a.toString());
-            const result = ActionOperationCodec.decodeResult(json);
-
-            const differences = diff(json, ActionOperationCodec.encodeResult(result));
-            if (differences == null) {
-                expect(true).to.equal(true);
-            } else {
-                console.log('differences: ', differences);
-                expect(JSON.stringify(json)).to.equal(JSON.stringify(ActionOperationCodec.encodeResult(result)));
-            }
-        });
-    }
-});
+describe('ActionOperationCodec.Response', () => {
+  const files = globSync('resources/spec/operation/action/response/*.json')
+  files.forEach((v: string) => {
+    it(`check: ${v}`, () => {
+      const oldObject = readJsonSync(v)
+      const actions = ActionOperationCodec.Result.decodeArray(oldObject.actions)
+      const newObject = {
+        actions: ActionOperationCodec.Result.encodeArray(actions)
+      }
+      if (isEqual(oldObject, newObject)) {
+        expect(true).to.equal(true)
+      } else {
+        expect(JSON.stringify(oldObject)).to.equal(JSON.stringify(newObject))
+      }
+    })
+  })
+})

@@ -1,29 +1,33 @@
-import {ActionType} from './urn/ActionType';
-import {ArgumentDefinition} from './ArgumentDefinition';
+import { ActionType } from './urn/ActionType';
+import { ArgumentDefinition } from './ArgumentDefinition';
 
 export class ActionDefinition {
+  type: ActionType;
 
-    type: ActionType;
-    description: Map<string, string> = new Map<string, string>();
-    in: ArgumentDefinition[] = [];
-    out: ArgumentDefinition[] = [];
+  description: Map<string, string> = new Map<string, string>();
 
-    constructor(type: ActionType,
-                description: Map<string, string>,
-                argumentsIn: ArgumentDefinition[],
-                argumentsOut: ArgumentDefinition[]) {
-        this.type = type;
+  in: ArgumentDefinition[] = [];
 
-        if (description != null) {
-            this.description = description;
-        }
+  out: ArgumentDefinition[] = [];
 
-        if (argumentsIn != null) {
-            this.in = argumentsIn;
-        }
+  constructor(
+    type: ActionType,
+    description: Map<string, string>,
+    argumentsIn: ArgumentDefinition[],
+    argumentsOut: ArgumentDefinition[]
+  ) {
+    this.type = type;
 
-        if (argumentsOut != null) {
-            this.out = argumentsOut;
-        }
+    if (description != null) {
+      this.description = description;
     }
+
+    if (argumentsIn != null) {
+      this.in = argumentsIn;
+    }
+
+    if (argumentsOut != null) {
+      this.out = argumentsOut;
+    }
+  }
 }

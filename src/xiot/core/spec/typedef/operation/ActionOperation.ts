@@ -1,25 +1,61 @@
 import {AbstractOperation} from './AbstractOperation';
-import {AID} from '../xid/AID';
-import {Argument} from '../instance/Argument';
+import {ActionID} from '../xid/ActionID';
+import {ArgumentOperation} from './ArgumentOperation';
+
 
 export class ActionOperation extends AbstractOperation {
-  public aid: AID | null = null;
-  public in: Map<number, Argument> = new Map<number, Argument>();
-  public out: Map<number, Argument> = new Map<number, Argument>();
 
-  getArgumentsIn(): Argument[] {
+  aid: ActionID = new ActionID();
+  oid: string = '';
+  in: Map<number, ArgumentOperation>  = new Map<number, ArgumentOperation>();
+  out: Map<number, ArgumentOperation>  = new Map<number, ArgumentOperation>();
+  argumentsCompact = false;
+
+  constructor() {
+    super();
+  }
+
+  error(status: number, description: string): ActionOperation {
+    this.status = status;
+    this.description = description;
+    return this;
+  }
+
+  public getArgumentsIn(): ArgumentOperation[] {
     return Array.from(this.in.values());
   }
 
-  getArgumentsOut(): Argument[] {
+  public getArgumentsOut(): ArgumentOperation[] {
     return Array.from(this.out.values());
   }
 
-  setArgumentsIn(list: Argument[]) {
-    list.forEach(x => this.in.set(x.piid, x));
+  setArgumentsIn(list: ArgumentOperation[]) {
+    list.forEach(x => {
+      return this.in.set(x.piid, x);
+    });
   }
 
-  setArgumentsOut(list: Argument[]) {
-    list.forEach(x => this.out.set(x.piid, x));
+  setArgumentsOut(list: ArgumentOperation[]) {
+    list.forEach(x => {
+      return this.out.set(x.piid, x);
+    });
+  }
+
+  toString(pretty = true, tab = false): string {
+    let str = '';
+
+    if (tab) {
+      str += '    ';
+    }
+
+    str += `${this.aid.toString()} =>`;
+
+    if (!pretty) {
+      str += ' ';
+    }
+
+    str += `${ArgumentOperation.toString(this.in, pretty, tab)};`;
+
+    return str;
   }
 }

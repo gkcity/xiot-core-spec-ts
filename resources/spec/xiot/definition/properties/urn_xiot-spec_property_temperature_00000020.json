@@ -1,8 +1,0 @@
-{
-  "type" : "urn:xiot-spec:property:temperature:00000020",
-  "description" : "Temperature",
-  "format" : "float",
-  "access" : [ "read", "notify" ],
-  "value-range" : [ -30.0, 100.0, 1.0 ],
-  "unit" : "celsius"
-}

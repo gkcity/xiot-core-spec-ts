@@ -1,178 +1,162 @@
-import {PropertyOperation} from '../../typedef/operation/PropertyOperation';
-import {PID} from '../../typedef/xid/PID';
 import {Spec} from '../../typedef/constant/Spec';
+import {AbstractOperationCodec} from './AbstractOperationCodec';
+import {PropertyOperation} from '../../typedef/operation/PropertyOperation';
+import {PropertyID} from '../../typedef/xid/PropertyID';
+import {CombinationValueCodec} from './CombinationValueCodec';
+
+
+export class PropertyOperationCodecGetQuery extends AbstractOperationCodec<PropertyOperation, string> {
+  decodeObject(o: any): PropertyOperation {
+    if (typeof o === 'string') {
+      const property = new PropertyOperation();
+      property.pid = PropertyID.parse(o);
+      return property;
+    }
+
+    throw Error(`invalid pid: ${o}`);
+  }
+
+  encodeObject(t: PropertyOperation): string {
+    return t.pid.toString();
+  }
+}
+
+export class PropertyOperationCodecGetResult extends AbstractOperationCodec<PropertyOperation, any> {
+  decodeObject(o: any): PropertyOperation {
+    const property = new PropertyOperation();
+    property.pid = PropertyID.parse(o[Spec.PID]);
+    property.status = o[Spec.STATUS];
+
+    if (property.status === undefined) {
+      property.status = 0;
+    }
+
+    if (property.status == null) {
+      property.status = 0;
+    }
+
+    if (property.status === 0) {
+      const value = o[Spec.VALUE];
+      if (value instanceof Array) {
+        property.value = CombinationValueCodec.decodeArray(value);
+      } else if (typeof value === 'object') {
+        property.argumentsCompact = true;
+        property.value = CombinationValueCodec.decodeObject(value);
+      } else {
+        property.value = value;
+      }
+    } else {
+      property.description = o[Spec.DESCRIPTION];
+    }
+
+    return property;
+  }
+
+  encodeObject(property: PropertyOperation): any {
+    const o: any = {
+      pid: property.pid.toString()
+    };
+
+    if (property.status === 0) {
+      if (property.value instanceof Map) {
+        o[Spec.VALUE] = CombinationValueCodec.encodeWithCompact(property.argumentsCompact, property.value);
+      } else {
+        o[Spec.VALUE] = property.value;
+      }
+    } else {
+      o[Spec.STATUS] = property.status;
+      o[Spec.DESCRIPTION] = property.description;
+    }
+
+    return o;
+  }
+}
+
+export class PropertyOperationCodecSetQuery extends AbstractOperationCodec<PropertyOperation, any> {
+  decodeObject(o: any): PropertyOperation {
+    const property = new PropertyOperation();
+    const value = o[Spec.VALUE];
+    property.pid = PropertyID.parse(o[Spec.PID]);
+    if (value !== null) {
+      if (value instanceof Array) {
+        property.value = CombinationValueCodec.decodeArray(value);
+      } else if (typeof value === 'object') {
+        property.argumentsCompact = true;
+        property.value = CombinationValueCodec.decodeObject(value);
+      } else {
+        property.value = value;
+      }
+    }
+
+    return property;
+  }
+
+  encodeObject(property: PropertyOperation): any {
+    return {
+      pid: property.pid.toString(),
+      value:
+        property.value instanceof Map
+          ? CombinationValueCodec.encodeWithCompact(property.argumentsCompact, property.value)
+          : property.value
+    };
+  }
+}
+
+export class PropertyOperationCodecSetResult extends AbstractOperationCodec<PropertyOperation, any> {
+  decodeObject(o: any): PropertyOperation {
+    const property = new PropertyOperation();
+    property.pid = PropertyID.parse(o[Spec.PID]);
+    property.status = o[Spec.STATUS];
+
+    if (property.status === undefined) {
+      property.status = 0;
+    }
+
+    if (property.status == null) {
+      property.status = 0;
+    }
+
+    if (property.status !== 0) {
+      property.description = o[Spec.DESCRIPTION];
+    }
+
+    // if (property.description === undefined) {
+    //     throw new Error('description undefined');
+    // }
+
+    return property;
+  }
+
+  encodeObject(property: PropertyOperation): any {
+    const o: any = {
+      pid: property.pid.toString(),
+      status: property.status
+    };
+
+    if (property.status !== 0) {
+      o[Spec.DESCRIPTION] = property.description;
+    }
+
+    return o;
+  }
+}
+
+export class PropertyOperationCodecGet {
+  QUERY: PropertyOperationCodecGetQuery = new PropertyOperationCodecGetQuery();
+
+  RESULT: PropertyOperationCodecGetResult = new PropertyOperationCodecGetResult();
+}
+
+export class PropertyOperationCodecSet {
+  QUERY: PropertyOperationCodecSetQuery = new PropertyOperationCodecSetQuery();
+
+  RESULT: PropertyOperationCodecSetResult = new PropertyOperationCodecSetResult();
+}
 
 export class PropertyOperationCodec {
+  public static Get: PropertyOperationCodecGet = new PropertyOperationCodecGet();
 
-    static decodePIDs(pids: string): PropertyOperation[] {
-        const array: PropertyOperation[] = [];
+  public static Set: PropertyOperationCodecSet = new PropertyOperationCodecSet();
 
-        if (pids != null) {
-            pids.split(',').forEach(pid => {
-                const o = new PropertyOperation();
-                o.pid = PID.parseString(pid);
-                array.push(o);
-            });
-        }
-
-        return array;
-    }
-
-    static decodePIDArray(pids: string[]): PropertyOperation[] {
-        const array: PropertyOperation[] = [];
-
-        if (pids != null) {
-            pids.forEach(pid => {
-                const o = new PropertyOperation();
-                o.pid = PID.parseString(pid);
-                array.push(o);
-            });
-        }
-
-        return array;
-    }
-
-    static decodeValues(json: any): PropertyOperation[] {
-      const array: PropertyOperation[] = [];
-
-      const properties = json['properties'];
-      if (properties != null) {
-        if (properties instanceof Array) {
-          properties.forEach(property => {
-            const o = new PropertyOperation();
-            o.pid = PID.parseString(property[Spec.PID]);
-            o.status = property[Spec.STATUS];
-
-            if (o.status == null) {
-              o.status = 0;
-            }
-
-            if (o.status === 0) {
-              o.value = property[Spec.VALUE];
-            } else {
-              o.description = property[Spec.DESCRIPTION];
-            }
-
-            o.message = property;
-
-            array.push(o);
-          });
-        }
-      }
-
-      return array;
-    }
-
-    // static decodeValuesByArray(values: Array<Object>): Array<PropertyOperation> {
-    //     const array = [];
-    //
-    //     if (values != null) {
-    //         values.forEach(value => {
-    //             const o = new PropertyOperation();
-    //             o.pid = PID.parseString(o[Spec.PID]);
-    //             o.status = o[Spec.STATUS];
-    //             if (o.status === 0) {
-    //                 o.value = o[Spec.VALUE];
-    //             } else {
-    //                 o.description = o[Spec.DESCRIPTION];
-    //             }
-    //
-    //             array.push(o);
-    //         });
-    //     }
-    //
-    //     return array;
-    // }
-
-    static decodeStatus(json: any): PropertyOperation[] {
-        const array: PropertyOperation[] = [];
-
-        const properties: any[] = json['properties'];
-
-        if (properties != null) {
-          properties.forEach(value => {
-                const o = new PropertyOperation();
-                o.pid = PID.parseString(value[Spec.PID]);
-                o.status = value[Spec.STATUS];
-                if (o.status !== 0) {
-                    o.description = value[Spec.DESCRIPTION];
-                }
-
-                o.message = value;
-
-                array.push(o);
-            });
-        }
-
-        return array;
-    }
-
-    // static decodeStatusByArray(values: Array<Object>): Array<PropertyOperation> {
-    //     const array = [];
-    //
-    //     if (values != null) {
-    //         values.forEach(value => {
-    //           const o = new PropertyOperation();
-    //             o.pid = PID.parseString(o[Spec.PID]);
-    //             o.status = o[Spec.STATUS];
-    //             if (o.status !== 0) {
-    //                 o.description = o[Spec.DESCRIPTION];
-    //             }
-    //
-    //             array.push(o);
-    //         });
-    //     }
-    //
-    //     return array;
-    // }
-
-    static encodeQueryGETtoString(list: Array<PropertyOperation>): string {
-        return list.map(p => p.pid != null ? p.pid.toString() : '').join(',');
-    }
-
-    static encodeQueryGETtoArray(list: Array<PropertyOperation>): any[] {
-        return list.map(p => p.pid != null ? p.pid.toString() : '');
-    }
-
-    static encodeResultGET(list: Array<PropertyOperation>): any[] {
-        return list.map(p => {
-            const object: any = {
-                pid: p.pid != null ? p.pid.toString() : '',
-                status: p.status
-            };
-
-            if (p.status === 0) {
-                object[Spec.VALUE] = p.value;
-            } else {
-                object[Spec.DESCRIPTION] = p.description;
-            }
-
-            return object;
-        });
-    }
-
-    static encodeSetProperty(property: PropertyOperation): any {
-        return {pid: property.pid != null ? property.pid.toString() : '', value: property.value};
-    }
-
-    static encodeQuerySET(list: PropertyOperation[]): any[] {
-        return list
-            .filter(p => p.status === 0)
-            .map(p => PropertyOperationCodec.encodeSetProperty(p));
-    }
-
-    static encodeResultSET(list: PropertyOperation[]): any[] {
-        return list.map(p => {
-            const object: any = {
-                pid: p.pid != null ? p.pid.toString() : '',
-                status: p.status
-            };
-
-            if (p.status !== 0) {
-                object[Spec.DESCRIPTION] = p.description;
-            }
-
-            return object;
-        });
-    }
+  public static Notify: PropertyOperationCodecSetQuery = new PropertyOperationCodecSetQuery();
 }

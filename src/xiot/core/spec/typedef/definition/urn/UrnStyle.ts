@@ -3,5 +3,5 @@ export enum UrnStyle {
   V1,
   V2,
   V2_TEMPLATE,
-  XIOT,
+  XIOT
 }

@@ -1,6 +1,0 @@
-{
-  "type" : "urn:xiot-spec:device:air-monitor:0000A008",
-  "description" : "Air Monitor",
-  "required-services" : [ "urn:xiot-spec:service:device-information:00007801", "urn:xiot-spec:service:air-monitor:00007812", "urn:xiot-spec:service:environment:0000780A" ],
-  "optional-services" : [ "urn:xiot-spec:service:battery:00007805", "urn:xiot-spec:service:screen:00007806", "urn:xiot-spec:service:alarm:00007804", "urn:xiot-spec:service:indicator-light:00007803" ]
-}

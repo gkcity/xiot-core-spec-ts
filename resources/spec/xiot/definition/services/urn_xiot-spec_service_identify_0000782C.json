@@ -1,5 +1,0 @@
-{
-  "type" : "urn:xiot-spec:service:identify:0000782C",
-  "description" : "Identify",
-  "required-actions" : [ "urn:xiot-spec:action:identify:00002801" ]
-}

@@ -1,7 +1,0 @@
-{
-  "type" : "urn:xiot-spec:property:illumination:0000004E",
-  "description" : "Illumination",
-  "format" : "float",
-  "access" : [ "read", "notify" ],
-  "value-range" : [ 0.0, 10000.0, 1.0 ]
-}

@@ -1,6 +1,0 @@
-{
-  "type" : "urn:xiot-spec:device:television:0000A010",
-  "description" : "Television",
-  "required-services" : [ "urn:xiot-spec:service:device-information:00007801" ],
-  "optional-services" : [ "urn:xiot-spec:service:television:0000781B", "urn:xiot-spec:service:play-control:0000781D", "urn:xiot-spec:service:speaker:0000781C", "urn:xiot-spec:service:message-router:0000781E" ]
-}

@@ -1,6 +1,0 @@
-{
-  "type" : "urn:xiot-spec:device:heater:0000A01A",
-  "description" : "Heater",
-  "required-services" : [ "urn:xiot-spec:service:device-information:00007801", "urn:xiot-spec:service:heater:0000782E" ],
-  "optional-services" : [ "urn:xiot-spec:service:countdown:0000782D", "urn:xiot-spec:service:environment:0000780A", "urn:xiot-spec:service:physical-controls-locked:00007807", "urn:xiot-spec:service:alarm:00007804", "urn:xiot-spec:service:indicator-light:00007803" ]
-}

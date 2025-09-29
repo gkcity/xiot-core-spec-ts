@@ -1,6 +1,0 @@
-{
-  "type" : "urn:xiot-spec:device:fridge:0000A00F",
-  "description" : "Fridge",
-  "required-services" : [ "urn:xiot-spec:service:device-information:00007801", "urn:xiot-spec:service:fridge:00007819", "urn:xiot-spec:service:fridge-chamber:0000781A" ],
-  "optional-services" : [ "urn:xiot-spec:service:physical-controls-locked:00007807" ]
-}

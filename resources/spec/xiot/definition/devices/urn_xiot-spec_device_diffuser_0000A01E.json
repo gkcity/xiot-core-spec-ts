@@ -1,6 +1,0 @@
-{
-  "type" : "urn:xiot-spec:device:diffuser:0000A01E",
-  "description" : "Diffuser",
-  "required-services" : [ "urn:xiot-spec:service:diffuser:00007833", "urn:xiot-spec:service:device-information:00007801" ],
-  "optional-services" : [ "urn:xiot-spec:service:light:00007802", "urn:xiot-spec:service:environment:0000780A", "urn:xiot-spec:service:countdown:0000782D" ]
-}

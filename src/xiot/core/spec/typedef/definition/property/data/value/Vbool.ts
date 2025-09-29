@@ -1,8 +1,7 @@
-import {DataValue} from '../DataValue';
-import {DataFormat} from '../DataFormat';
+import { DataValue } from '../DataValue';
+import { DataFormat } from '../DataFormat';
 
 export class Vbool implements DataValue<boolean> {
-
   private value = false;
 
   static create(value: Object): Vbool {
@@ -14,12 +13,12 @@ export class Vbool implements DataValue<boolean> {
         return v;
 
       case 'number':
-          const vv = new Vbool();
-          vv.value = <number>value === 1;
-          return vv;
+        const vv = new Vbool();
+        vv.value = <number>value === 1;
+        return vv;
 
       default:
-        throw new Error('invalid value: ' + value + ' typeof(value): ' + type);
+        throw new Error(`invalid value: ${value} typeof(value): ${type}`);
     }
   }
 
@@ -28,32 +27,29 @@ export class Vbool implements DataValue<boolean> {
       const v = new Vbool();
       v.value = true;
       return v;
-    } else if (value === 'false') {
+    }
+    if (value === 'false') {
       const v = new Vbool();
       v.value = false;
       return v;
     }
 
-    throw new Error('Vbool invalid value: ' + value);
+    throw new Error(`Vbool invalid value: ${value}`);
   }
 
   equals(other: DataValue<boolean>): boolean {
-    return (this.value === other.getObjectValue());
+    return this.value === other.rawValue();
   }
 
   lessEquals(maxValue: DataValue<boolean>): boolean {
     return false;
   }
 
-  validate(min: DataValue<boolean>, max: DataValue<boolean>): boolean {
+  validate(min: DataValue<boolean>, max: DataValue<boolean>, step?: DataValue<boolean>): boolean {
     return false;
   }
 
-  validateStep(min: DataValue<boolean>, max: DataValue<boolean>, step: DataValue<boolean> | null): boolean {
-    return false;
-  }
-
-  getObjectValue(): boolean {
+  rawValue(): boolean {
     return this.value;
   }
 

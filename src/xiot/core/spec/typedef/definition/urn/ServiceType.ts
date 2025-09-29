@@ -1,18 +1,12 @@
-import {Urn} from './Urn';
+import { Urn } from './Urn';
+import { UrnType } from './UrnType';
 
 export class ServiceType extends Urn {
-
-  constructor(string: string) {
-    super(string);
+  constructor(string: string, exception = false) {
+    super([UrnType.SERVICE], string, exception);
   }
 
-  // static valueOf(string: string): ServiceType | null {
-  //   let thiz = new ServiceType();
-
-  //   if (!thiz.parse(UrnType.SERVICE, string)) {
-  //     return null;
-  //   }
-
-  //   return thiz;
-  // }
+  public static parse(string: string): ServiceType {
+    return new ServiceType(string, true);
+  }
 }

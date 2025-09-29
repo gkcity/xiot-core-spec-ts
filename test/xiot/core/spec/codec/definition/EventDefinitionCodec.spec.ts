@@ -1,31 +1,23 @@
-import { expect } from 'chai';
-import 'mocha';
-import {diff} from 'yajsondiff';
-import * as fs from 'async-file';
-import {EventDefinitionCodec} from '../../../../../../src';
+import { expect } from 'chai'
+import 'mocha'
+import { readJsonSync } from 'fs-extra'
+import { sync as globSync } from 'glob'
+import { isEqual } from 'lodash'
+import {EventDefinitionCodec} from "../../../../../../src";
+// import { EventDefinitionCodec } from '@/index'
 
-describe('EventDefinitionCodec', async () => {
+describe('EventDefinitionCodec', () => {
+  const files = globSync('./resources/spec/definition/events/**/*.json')
 
-    const folder = './resources/spec/xiot/definition/events/';
-
-    const dir = await fs.readdir(folder);
-
-    it('reading events, folder: ' + folder, () => {
-        expect(true).to.equal(true);
-    });
-
-    for (const file of dir) {
-        it('  check: ' + file, async () => {
-            const a = await fs.readFile(folder + file);
-            const json = JSON.parse(a.toString());
-            const def = EventDefinitionCodec.decode(json);
-
-            const differences = diff(json, EventDefinitionCodec.encode(def));
-            if (differences == null) {
-                expect(true).to.equal(true);
-            } else {
-                expect(JSON.stringify(json)).to.equal(JSON.stringify(EventDefinitionCodec.encode(def)));
-            }
-        });
-    }
-});
+  files.forEach((v: string) => {
+    it(`check: ${v}`, () => {
+      const json = readJsonSync(v)
+      const def = EventDefinitionCodec.decode(json)
+      if (isEqual(json, EventDefinitionCodec.encode(def))) {
+        expect(true).to.equal(true)
+      } else {
+        expect(JSON.stringify(json)).to.equal(JSON.stringify(EventDefinitionCodec.encode(def)))
+      }
+    })
+  })
+})

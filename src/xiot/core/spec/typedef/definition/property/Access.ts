@@ -1,9 +1,18 @@
 export class Access {
+
   public isReadable = false;
   public isWritable = false;
   public isNotifiable = false;
 
-  static create(access: Array<String>): Access {
+  static of(readable: boolean, writable: boolean, notifiable: boolean): Access {
+    const thiz = new Access();
+    thiz.isReadable = readable;
+    thiz.isWritable = writable;
+    thiz.isNotifiable = notifiable;
+    return thiz;
+  }
+
+  static create(access: Array<string>): Access {
     const thiz = new Access();
 
     for (const v of access) {
@@ -59,5 +68,40 @@ export class Access {
     }
 
     return array.join(' ');
+  }
+
+  toZhCNList(): string[] {
+    const array = [];
+
+    if (this.isReadable) {
+      array.push('可读');
+    }
+
+    if (this.isWritable) {
+      array.push('可写');
+    }
+
+    if (this.isNotifiable) {
+      array.push('可通知');
+    }
+
+    return array;
+  }
+
+  toListOptions(): any[] {
+    const array = [];
+    if (this.isReadable) {
+      array.push({ key: 'read', value: '可读' });
+    }
+
+    if (this.isWritable) {
+      array.push({ key: 'write', value: '可写' });
+    }
+
+    if (this.isNotifiable) {
+      array.push({ key: 'notify', value: '可通知' });
+    }
+
+    return array;
   }
 }

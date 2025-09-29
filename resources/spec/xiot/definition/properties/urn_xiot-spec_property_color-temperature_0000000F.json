@@ -1,8 +1,0 @@
-{
-  "type" : "urn:xiot-spec:property:color-temperature:0000000F",
-  "description" : "Color Temperature",
-  "format" : "uint32",
-  "access" : [ "read", "write", "notify" ],
-  "value-range" : [ 1000, 10000, 1 ],
-  "unit" : "kelvin"
-}

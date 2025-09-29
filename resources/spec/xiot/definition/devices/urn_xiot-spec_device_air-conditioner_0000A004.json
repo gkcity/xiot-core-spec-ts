@@ -1,6 +1,0 @@
-{
-  "type" : "urn:xiot-spec:device:air-conditioner:0000A004",
-  "description" : "Air Conditioner",
-  "required-services" : [ "urn:xiot-spec:service:device-information:00007801" ],
-  "optional-services" : [ "urn:xiot-spec:service:air-conditioner:0000780F", "urn:xiot-spec:service:fan-control:00007809", "urn:xiot-spec:service:environment:0000780A", "urn:xiot-spec:service:alarm:00007804", "urn:xiot-spec:service:indicator-light:00007803", "urn:xiot-spec:service:countdown:0000782D" ]
-}

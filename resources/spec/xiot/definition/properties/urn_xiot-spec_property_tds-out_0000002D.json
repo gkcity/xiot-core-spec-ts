@@ -1,7 +1,0 @@
-{
-  "type" : "urn:xiot-spec:property:tds-out:0000002D",
-  "description" : "Total Dissolved Solids for Output Water",
-  "format" : "uint16",
-  "access" : [ "read", "notify" ],
-  "value-range" : [ 0, 1000, 1 ]
-}

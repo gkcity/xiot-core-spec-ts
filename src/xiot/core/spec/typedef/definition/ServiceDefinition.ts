@@ -1,27 +1,35 @@
-import {ServiceType} from './urn/ServiceType';
-import {PropertyType} from './urn/PropertyType';
-import {ActionType} from './urn/ActionType';
-import {EventType} from './urn/EventType';
+import { ServiceType } from './urn/ServiceType';
+import { PropertyType } from './urn/PropertyType';
+import { ActionType } from './urn/ActionType';
+import { EventType } from './urn/EventType';
 
 export class ServiceDefinition {
-
   type: ServiceType;
+
   description: Map<string, string> = new Map<string, string>();
+
   requiredProperties: PropertyType[] = [];
+
   optionalProperties: PropertyType[] = [];
+
   requiredActions: ActionType[] = [];
+
   optionalActions: ActionType[] = [];
+
   requiredEvents: EventType[] = [];
+
   optionalEvents: EventType[] = [];
 
-  constructor(type: ServiceType,
-              description: Map<string, string>,
-              requiredProperties: PropertyType[],
-              optionalProperties: PropertyType[],
-              requiredActions: ActionType[],
-              optionalActions: ActionType[],
-              requiredEvents: EventType[],
-              optionalEvents: EventType[]) {
+  constructor(
+    type: ServiceType,
+    description: Map<string, string>,
+    requiredProperties: PropertyType[],
+    optionalProperties: PropertyType[],
+    requiredActions: ActionType[],
+    optionalActions: ActionType[],
+    requiredEvents: EventType[],
+    optionalEvents: EventType[]
+  ) {
     this.type = type;
 
     if (description != null) {

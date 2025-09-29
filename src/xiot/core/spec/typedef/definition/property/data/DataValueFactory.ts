@@ -1,20 +1,20 @@
-import {DataValue} from './DataValue';
-import {DataFormat} from './DataFormat';
-import {Vbool} from './value/Vbool';
-import {Vstring} from './value/Vstring';
-import {Vfloat} from './value/Vfloat';
-import {Vuint8} from './value/Vuint8';
-import {Vuint16} from './value/Vuint16';
-import {Vuint32} from './value/Vuint32';
-import {Vint8} from './value/Vint8';
-import {Vint16} from './value/Vint16';
-import {Vint32} from './value/Vint32';
-import {Vint64} from './value/Vint64';
-import {Vhex} from './value/Vhex';
-import {Vtlv8} from './value/Vtlv8';
+import { DataValue } from './DataValue';
+import { DataFormat } from './DataFormat';
+import { Vbool } from './value/Vbool';
+import { Vstring } from './value/Vstring';
+import { Vfloat } from './value/Vfloat';
+import { Vuint8 } from './value/Vuint8';
+import { Vuint16 } from './value/Vuint16';
+import { Vuint32 } from './value/Vuint32';
+import { Vint8 } from './value/Vint8';
+import { Vint16 } from './value/Vint16';
+import { Vint32 } from './value/Vint32';
+import { Vint64 } from './value/Vint64';
+import { Vhex } from './value/Vhex';
+import { Vtlv8 } from './value/Vtlv8';
+import { Vcombination } from './value/Vcombination';
 
 export class DataValueFactory {
-
   static createDefaultValue(format: DataFormat): DataValue<any> {
     switch (format) {
       case DataFormat.BOOL:
@@ -53,8 +53,11 @@ export class DataValueFactory {
       case DataFormat.TLV8:
         return new Vtlv8();
 
+      case DataFormat.COMBINATION:
+        return new Vcombination();
+
       default:
-        throw new Error('format invalid: ' + format);
+        throw new Error(`format invalid: ${format}`);
     }
   }
 
@@ -96,8 +99,11 @@ export class DataValueFactory {
       case DataFormat.TLV8:
         return Vtlv8.create(value);
 
+      case DataFormat.COMBINATION:
+        return Vcombination.create(value);
+
       default:
-        throw new Error('format invalid: ' + format);
+        throw new Error(`format invalid: ${format}`);
     }
   }
 
@@ -139,8 +145,9 @@ export class DataValueFactory {
       case DataFormat.TLV8:
         return Vtlv8.fromString(value);
 
+      case DataFormat.COMBINATION:
       default:
-        throw new Error('format invalid: ' + format);
+        throw new Error(`format invalid: ${format}`);
     }
   }
 }

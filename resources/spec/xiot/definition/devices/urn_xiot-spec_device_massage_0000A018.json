@@ -1,6 +1,0 @@
-{
-  "type" : "urn:xiot-spec:device:massage:0000A018",
-  "description" : "Massage",
-  "required-services" : [ "urn:xiot-spec:service:device-information:00007801", "urn:xiot-spec:service:massage:00007829" ],
-  "optional-services" : [ "urn:xiot-spec:service:backrest-control:0000782A", "urn:xiot-spec:service:physical-controls-locked:00007807" ]
-}

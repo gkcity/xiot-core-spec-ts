@@ -1,7 +1,0 @@
-{
-  "type" : "urn:xiot-spec:property:color:0000000E",
-  "description" : "Color",
-  "format" : "uint32",
-  "access" : [ "read", "write", "notify" ],
-  "value-range" : [ 0, 16777215, 1 ]
-}

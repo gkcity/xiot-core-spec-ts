@@ -1,24 +1,30 @@
-import {DataFormat} from '../definition/property/data/DataFormat';
-import {DataValue} from '../definition/property/data/DataValue';
-import {DataValueFactory} from '../definition/property/data/DataValueFactory';
+import {DataFormat, DataFormatCheck} from '../definition/property/data/DataFormat';
+import { DataValue } from '../definition/property/data/DataValue';
+import { DataValueFactory } from '../definition/property/data/DataValueFactory';
 
 export class PropertyValue {
 
   format: DataFormat = DataFormat.BOOL;
-  isChanged = false;
-  oldValue: DataValue<any> | null = null;
-  currentValue: DataValue<any>;
 
-  currentStringValue = '';
-  currentNumberValue = 0;
-  currentBooleanValue = false;
+  initValue: DataValue<any>;
+  defaultValue: DataValue<any> | null = null;
+  currentValue: DataValue<any> | null = null;
+
+  static copy(o: PropertyValue): PropertyValue {
+    const thiz = new PropertyValue(o.format);
+    thiz.initValue = o.initValue;
+    thiz.defaultValue = o.defaultValue;
+    thiz.currentValue = o.currentValue;
+    thiz._stringValue = o._stringValue;
+    thiz._numberValue = o._numberValue;
+    thiz._booleanValue = o._booleanValue;
+    return thiz;
+  }
 
   constructor(format: DataFormat) {
     this.format = format;
-    this.isChanged = false;
-    this.oldValue = null;
-    this.currentValue = DataValueFactory.createDefaultValue(format);
-    this.updateCurrentValue();
+    this.initValue = DataValueFactory.createDefaultValue(format);
+    this.refreshValueForDebuggerOrSimulator();
   }
 
   update(newValue: DataValue<any>): void {
@@ -26,26 +32,34 @@ export class PropertyValue {
       throw new Error('update failed: newValue is null');
     }
 
-    if (this.format !== newValue.getFormat()) {
+    if (! DataFormatCheck(this.format, newValue)) {
       throw new Error('update failed: newValue invalid format');
     }
 
-    if (this.currentValue == null) {
-      this.currentValue = newValue;
-      this.isChanged = true;
-    }
-
-    this.oldValue = this.currentValue;
     this.currentValue = newValue;
-    this.isChanged = true;
-    this.updateCurrentValue();
+    this.refreshValueForDebuggerOrSimulator();
   }
 
-  private updateCurrentValue(): void {
+  public value(): DataValue<any> {
+    if (this.currentValue != null) {
+      return this.currentValue;
+    }
+
+    if (this.defaultValue != null) {
+      return this.defaultValue;
+    }
+
+    return this.initValue;
+  }
+
+  /*----------------------------------------------------------------------
+   * for debugger or simulator
+   *----------------------------------------------------------------------*/
+  private refreshValueForDebuggerOrSimulator(): void {
     switch (this.format) {
       case DataFormat.BOOL:
-        this.currentBooleanValue = this.currentValue.getObjectValue();
-        this.currentStringValue = this.currentBooleanValue.toString();
+        this._booleanValue = this.value().rawValue();
+        this._stringValue = this._booleanValue.toString();
         break;
 
       case DataFormat.FLOAT:
@@ -56,24 +70,28 @@ export class PropertyValue {
       case DataFormat.INT16:
       case DataFormat.INT32:
       case DataFormat.INT64:
-        this.currentNumberValue = this.currentValue.getObjectValue();
-        this.currentStringValue = this.currentNumberValue.toString();
+        this._numberValue = this.value().rawValue();
+        this._stringValue = this._numberValue.toString();
         break;
 
       case DataFormat.STRING:
-        this.currentStringValue = this.currentValue.getObjectValue();
+        this._stringValue = this.value().rawValue();
         break;
 
       case DataFormat.TLV8:
-        this.currentStringValue = this.currentValue.getObjectValue();
+        this._stringValue = this.value().rawValue();
         break;
 
       case DataFormat.HEX:
-        this.currentStringValue = this.currentValue.getObjectValue();
+        this._stringValue = this.value().rawValue();
         break;
 
       default:
         break;
     }
   }
+
+  _stringValue = '';
+  _numberValue = 0;
+  _booleanValue = false;
 }

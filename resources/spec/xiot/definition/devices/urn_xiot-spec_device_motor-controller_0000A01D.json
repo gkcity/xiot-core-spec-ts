@@ -1,6 +1,0 @@
-{
-  "type" : "urn:xiot-spec:device:motor-controller:0000A01D",
-  "description" : "Motor Controller",
-  "required-services" : [ "urn:xiot-spec:service:device-information:00007801", "urn:xiot-spec:service:motor-controller:00007832" ],
-  "optional-services" : [ "urn:xiot-spec:service:physical-controls-locked:00007807", "urn:xiot-spec:service:alarm:00007804", "urn:xiot-spec:service:indicator-light:00007803" ]
-}

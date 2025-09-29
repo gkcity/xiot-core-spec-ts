@@ -1,6 +1,0 @@
-{
-  "type" : "urn:xiot-spec:device:light:0000A001",
-  "description" : "Light",
-  "required-services" : [ "urn:xiot-spec:service:device-information:00007801", "urn:xiot-spec:service:light:00007802" ],
-  "optional-services" : [ "urn:xiot-spec:service:battery:00007805" ]
-}

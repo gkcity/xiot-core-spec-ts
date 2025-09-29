@@ -1,6 +1,0 @@
-{
-  "type" : "urn:xiot-spec:service:play-control:0000781D",
-  "description" : "Play Control",
-  "optional-properties" : [ "urn:xiot-spec:property:playing-state:00000041", "urn:xiot-spec:property:seek-time:00000042" ],
-  "optional-actions" : [ "urn:xiot-spec:action:seek:0000280A", "urn:xiot-spec:action:play:0000280B", "urn:xiot-spec:action:pause:0000280C", "urn:xiot-spec:action:stop:0000280D", "urn:xiot-spec:action:previous:0000280E", "urn:xiot-spec:action:next:0000280F" ]
-}

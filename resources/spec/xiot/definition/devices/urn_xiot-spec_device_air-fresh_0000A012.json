@@ -1,6 +1,0 @@
-{
-  "type" : "urn:xiot-spec:device:air-fresh:0000A012",
-  "description" : "Fresh Air System",
-  "required-services" : [ "urn:xiot-spec:service:device-information:00007801", "urn:xiot-spec:service:air-fresh:00007822", "urn:xiot-spec:service:environment:0000780A", "urn:xiot-spec:service:filter:0000780B" ],
-  "optional-services" : [ "urn:xiot-spec:service:physical-controls-locked:00007807", "urn:xiot-spec:service:alarm:00007804", "urn:xiot-spec:service:indicator-light:00007803" ]
-}

@@ -1,6 +1,0 @@
-{
-  "type" : "urn:xiot-spec:property:auto-keep-warm:0000002B",
-  "description" : "Auto Keep Warm",
-  "format" : "bool",
-  "access" : [ "read", "write", "notify" ]
-}

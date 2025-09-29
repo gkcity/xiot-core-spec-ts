@@ -1,6 +1,0 @@
-{
-  "type" : "urn:xiot-spec:device:hood:0000A01B",
-  "description" : "Hood",
-  "required-services" : [ "urn:xiot-spec:service:device-information:00007801", "urn:xiot-spec:service:hood:0000782B" ],
-  "optional-services" : [ "urn:xiot-spec:service:fan-control:00007809", "urn:xiot-spec:service:environment:0000780A", "urn:xiot-spec:service:physical-controls-locked:00007807", "urn:xiot-spec:service:light:00007802" ]
-}

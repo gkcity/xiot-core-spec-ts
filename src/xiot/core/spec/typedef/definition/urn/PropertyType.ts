@@ -1,18 +1,12 @@
-import {Urn} from './Urn';
+import { Urn } from './Urn';
+import { UrnType } from './UrnType';
 
 export class PropertyType extends Urn {
-
-  constructor(string: string) {
-    super(string);
+  constructor(string: string, exception = false) {
+    super([UrnType.PROPERTY], string, exception);
   }
 
-  // static valueOf(string: string): PropertyType | null {
-  //   let thiz = new PropertyType();
-
-  //   if (!thiz.parse(UrnType.PROPERTY, string)) {
-  //     return null;
-  //   }
-
-  //   return thiz;
-  // }
+  public static parse(string: string): PropertyType {
+    return new PropertyType(string, true);
+  }
 }

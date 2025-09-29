@@ -1,42 +1,37 @@
-import {DataValue} from '../DataValue';
-import {DataFormat} from '../DataFormat';
+import { DataValue } from '../DataValue';
+import { DataFormat } from '../DataFormat';
 
 export class Vstring implements DataValue<string> {
+  private value = '';
 
-    private value = '';
-
-    static create(value: Object): Vstring {
-        const type = typeof value;
-        if (type === 'string') {
-            const v = new Vstring();
-            v.value = <string>value;
-            return v;
-        }
-
-        throw new Error('invalid value: ' + value + ' typeof(value): ' + type);
+  static create(value: Object): Vstring {
+    const type = typeof value;
+    const v = new Vstring();
+    if (type === 'string') {
+      v.value = String(value);
+    } else {
+      console.log(`invalid value: ${value} typeof(value): ${type}`);
     }
+    return v;
+  }
 
-    equals(other: DataValue<string>): boolean {
-        return (this.value === other.getObjectValue());
-    }
+  equals(other: DataValue<string>): boolean {
+    return this.value === other.rawValue();
+  }
 
-    lessEquals(maxValue: DataValue<string>): boolean {
-        return false;
-    }
+  lessEquals(maxValue: DataValue<string>): boolean {
+    return false;
+  }
 
-    validate(min: DataValue<string>, max: DataValue<string>): boolean {
-        return false;
-    }
+  validate(min: DataValue<string>, max: DataValue<string>, step?: DataValue<string>): boolean {
+    return false;
+  }
 
-    validateStep(min: DataValue<string>, max: DataValue<string>, step: DataValue<string> | null): boolean {
-        return false;
-    }
+  rawValue(): string {
+    return this.value;
+  }
 
-    getObjectValue(): string {
-        return this.value;
-    }
-
-    getFormat(): DataFormat {
-        return DataFormat.STRING;
-    }
+  getFormat(): DataFormat {
+    return DataFormat.STRING;
+  }
 }

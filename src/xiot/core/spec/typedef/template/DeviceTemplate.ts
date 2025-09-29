@@ -1,28 +1,30 @@
-import {DeviceType, Service} from '../../../../..';
+import {DeviceType} from '../definition/urn/DeviceType';
 import {ServiceTemplate} from './ServiceTemplate';
+
 
 /**
  * ouyang
  */
 export class DeviceTemplate {
+  type: DeviceType;
 
-    type: DeviceType;
-    description: Map<string, string> = new Map<string, string>();
-    services: Map<number, ServiceTemplate> = new Map<number, ServiceTemplate>();
+  description: Map<string, string> = new Map<string, string>();
 
-    constructor(type: DeviceType,
-                description: Map<string, string>,
-                services: ServiceTemplate[]) {
-        this.type = type;
+  services: Map<number, ServiceTemplate> = new Map<number, ServiceTemplate>();
 
-        if (description != null) {
-            this.description = description;
-        }
+  constructor(type: DeviceType, description: Map<string, string>, services: ServiceTemplate[]) {
+    this.type = type;
 
-        services.forEach(x => this.services.set(x.iid, x));
+    if (description != null) {
+      this.description = description;
     }
 
-    getServices(): ServiceTemplate[] {
-        return Array.from(this.services.values());
-    }
+    services.forEach(x => {
+      return this.services.set(x.iid, x);
+    });
+  }
+
+  getServices(): ServiceTemplate[] {
+    return Array.from(this.services.values());
+  }
 }

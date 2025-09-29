@@ -1,20 +1,29 @@
-import {PropertyDefinition, PropertyValue} from '../../../../..';
+import {Property} from '../instance/Property';
+import {PropertyType} from "../definition/urn/PropertyType";
+import {DataFormat} from "../definition/property/data/DataFormat";
+import {Access} from "../definition/property/Access";
+import {ConstraintValue} from "../definition/property/ConstraintValue";
 
-/**
- * ouyang
- */
-export class PropertyTemplate extends PropertyDefinition {
 
-    iid: number;
-    required: boolean;
+export class PropertyTemplate extends Property {
 
-    constructor(iid: number, required: boolean, def: PropertyDefinition) {
-        super(def.type, def.description);
-        this.iid = iid;
-        this.required = required;
-        this.format = def.format;
-        this.access = def.access;
-        this.constraintValue = def.constraintValue;
-        this.unit = def.unit;
-    }
+  // iid: number;
+  // required: boolean;
+  // source: string;
+  // members: number[] = [];
+
+  constructor(
+      iid = 0,
+      type: PropertyType,
+      description: Map<string, string>,
+      format: DataFormat,
+      access: Access,
+      constraintValue: ConstraintValue | null = null,
+      unit: string | null = null,
+      members: Array<number> = [],
+      public required: boolean,
+      public source: string
+  ) {
+    super(iid, type, description, format, access, constraintValue, unit, members);
+  }
 }

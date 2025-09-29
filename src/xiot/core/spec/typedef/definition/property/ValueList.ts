@@ -1,10 +1,8 @@
-import {ConstraintValue} from './ConstraintValue';
-import {ValueDefinition} from './ValueDefinition';
-import {DataValue} from './data/DataValue';
-import {Spec} from '../../constant/Spec';
+import { ConstraintValue } from './ConstraintValue';
+import { ValueDefinition } from './ValueDefinition';
+import { DataValue } from './data/DataValue';
 
 export class ValueList implements ConstraintValue {
-
   public values: ValueDefinition[] = [];
 
   validate(value: DataValue<any>): boolean {
@@ -17,26 +15,8 @@ export class ValueList implements ConstraintValue {
     return false;
   }
 
-  toJsonArray(): any[] {
-      const array: any[] = [];
-
-      for (const v of this.values) {
-          const o: any = {};
-          o[Spec.VALUE] = v.value.getObjectValue();
-          o[Spec.DESCRIPTION] = v.description;
-          array.push(o);
-      }
-
-      return array;
-  }
-
-  toString(): string {
-    const array = [];
-
-    for (const v of this.values) {
-      array.push(v.value.getObjectValue());
-    }
-
-    return array.join(' ');
+  public toString(): string {
+    const v = this.values.map(x => x.value.rawValue());
+    return v.join(",");
   }
 }

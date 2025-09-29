@@ -4,7 +4,10 @@ export enum UrnType {
   ACTION = 'action',
   EVENT = 'event',
   SERVICE = 'service',
-  DEVICE = 'device'
+  DEVICE = 'device',
+  GROUP = 'group',
+  FORMAT = 'format',
+  UNIT = 'unit'
 }
 
 export function UrnTypeToString(type: UrnType): string {
@@ -15,10 +18,10 @@ export function UrnTypeFromString(type: string): UrnType {
   const keys: (keyof typeof UrnType)[] = <(keyof typeof UrnType)[]>Object.keys(UrnType);
 
   for (const key of keys) {
-      const s = UrnTypeToString(UrnType[key]);
-      if (s === type) {
-          return UrnType[key];
-      }
+    const s = UrnTypeToString(UrnType[key]);
+    if (s === type) {
+      return UrnType[key];
+    }
   }
 
   return UrnType.UNDEFINED;

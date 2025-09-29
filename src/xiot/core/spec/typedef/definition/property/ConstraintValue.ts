@@ -1,8 +1,5 @@
-import {DataValue} from './data/DataValue';
+import { DataValue } from './data/DataValue';
 
 export interface ConstraintValue {
-
-    validate(value: DataValue<any>): boolean;
-
-    toJsonArray(): Array<Object>;
+  validate(value: DataValue<any>): boolean;
 }

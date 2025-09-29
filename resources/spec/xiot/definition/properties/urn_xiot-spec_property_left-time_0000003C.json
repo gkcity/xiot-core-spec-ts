@@ -1,7 +1,0 @@
-{
-  "type" : "urn:xiot-spec:property:left-time:0000003C",
-  "description" : "Left Time",
-  "format" : "uint16",
-  "access" : [ "read", "notify" ],
-  "value-range" : [ 0, 1440, 1 ]
-}

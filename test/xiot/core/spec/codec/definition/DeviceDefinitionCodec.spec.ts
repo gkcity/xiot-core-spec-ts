@@ -1,30 +1,23 @@
-import { expect } from 'chai';
-import 'mocha';
-import {diff} from 'yajsondiff';
-import * as fs from 'async-file';
-import {DeviceDefinitionCodec} from '../../../../../../src';
+import { expect } from 'chai'
+import 'mocha'
+import { readJsonSync } from 'fs-extra'
+import { sync as globSync } from 'glob'
+import { isEqual } from 'lodash'
+import {DeviceDefinitionCodec} from "../../../../../../src";
+// import { DeviceDefinitionCodec } from '@/index'
 
-describe('DeviceDefinitionCodec', async () => {
+describe('DeviceDefinitionCodec', () => {
+  const files = globSync('./resources/spec/definition/devices/**/*.json')
 
-    const folder = './resources/spec/xiot/definition/devices/';
-    const dir = await fs.readdir(folder);
-
-    it('reading devices, folder: ' + folder, () => {
-        expect(true).to.equal(true);
-    });
-
-    for (const file of dir) {
-        it('  check: ' + file, async () => {
-            const a = await fs.readFile(folder + file);
-            const json = JSON.parse(a.toString());
-            const def = DeviceDefinitionCodec.decode(json);
-
-            const differences = diff(json, DeviceDefinitionCodec.encode(def));
-            if (differences == null) {
-                expect(true).to.equal(true);
-            } else {
-                expect(JSON.stringify(json)).to.equal(JSON.stringify(DeviceDefinitionCodec.encode(def)));
-            }
-        });
-    }
-});
+  files.forEach((v: string) => {
+    it(`check: ${v}`, () => {
+      const json = readJsonSync(v)
+      const def = DeviceDefinitionCodec.decode(json)
+      if (isEqual(json, DeviceDefinitionCodec.encode(def))) {
+        expect(true).to.equal(true)
+      } else {
+        expect(JSON.stringify(json)).to.equal(JSON.stringify(DeviceDefinitionCodec.encode(def)))
+      }
+    })
+  })
+})

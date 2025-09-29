@@ -1,6 +1,0 @@
-{
-  "type" : "urn:xiot-spec:device:fan:0000A005",
-  "description" : "Fan",
-  "required-services" : [ "urn:xiot-spec:service:device-information:00007801" ],
-  "optional-services" : [ "urn:xiot-spec:service:fan:00007808", "urn:xiot-spec:service:physical-controls-locked:00007807", "urn:xiot-spec:service:battery:00007805" ]
-}

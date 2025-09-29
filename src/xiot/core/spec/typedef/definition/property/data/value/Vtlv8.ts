@@ -1,48 +1,43 @@
-import {DataValue} from '../DataValue';
-import {DataFormat} from '../DataFormat';
+import { DataValue } from '../DataValue';
+import { DataFormat } from '../DataFormat';
 
 export class Vtlv8 implements DataValue<string> {
+  private value = '';
 
-    private value = '';
-
-    static create(value: Object): Vtlv8 {
-        const type = typeof value;
-        if (type === 'string') {
-            const v = new Vtlv8();
-            v.value = <string>value;
-            return v;
-        }
-
-        throw new Error('invalid value: ' + value + ' typeof(value): ' + type);
+  static create(value: Object): Vtlv8 {
+    const type = typeof value;
+    if (type === 'string') {
+      const v = new Vtlv8();
+      v.value = <string>value;
+      return v;
     }
 
-    static fromString(value: string): Vtlv8 {
-        const v = new Vtlv8();
-        v.value = value;
-        return v;
-    }
+    throw new Error(`invalid value: ${value} typeof(value): ${type}`);
+  }
 
-    equals(other: DataValue<string>): boolean {
-        return (this.value === other.getObjectValue());
-    }
+  static fromString(value: string): Vtlv8 {
+    const v = new Vtlv8();
+    v.value = value;
+    return v;
+  }
 
-    lessEquals(maxValue: DataValue<string>): boolean {
-        return false;
-    }
+  equals(other: DataValue<string>): boolean {
+    return this.value === other.rawValue();
+  }
 
-    validate(min: DataValue<string>, max: DataValue<string>): boolean {
-        return false;
-    }
+  lessEquals(maxValue: DataValue<string>): boolean {
+    return false;
+  }
 
-    validateStep(min: DataValue<string>, max: DataValue<string>, step: DataValue<string> | null): boolean {
-        return false;
-    }
+  validate(min: DataValue<string>, max: DataValue<string>, step?: DataValue<string>): boolean {
+    return false;
+  }
 
-    getObjectValue(): string {
-        return this.value;
-    }
+  rawValue(): string {
+    return this.value;
+  }
 
-    getFormat(): DataFormat {
-        return DataFormat.TLV8;
-    }
+  getFormat(): DataFormat {
+    return DataFormat.TLV8;
+  }
 }

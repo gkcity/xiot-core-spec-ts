@@ -1,18 +1,12 @@
-import {Urn} from './Urn';
+import { Urn } from './Urn';
+import { UrnType } from './UrnType';
 
 export class EventType extends Urn {
+  constructor(string: string, exception = false) {
+    super([UrnType.EVENT], string, exception);
+  }
 
-    constructor(string: string) {
-      super(string);
-    }
-
-    // static valueOf(string: string): EventType | null {
-    //   let thiz = new EventType();
-
-    //   if (!thiz.parse(UrnType.EVENT, string)) {
-    //     return null;
-    //   }
-
-    //   return thiz;
-    // }
+  public static parse(string: string): EventType {
+    return new EventType(string, true);
+  }
 }

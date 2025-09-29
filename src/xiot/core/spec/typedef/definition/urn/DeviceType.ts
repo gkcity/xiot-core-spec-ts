@@ -1,18 +1,12 @@
-import {Urn} from './Urn';
+import { Urn } from './Urn';
+import { UrnType } from './UrnType';
 
 export class DeviceType extends Urn {
-
-  constructor(string: string) {
-    super(string);
+  constructor(string: string, exception = false) {
+    super([UrnType.DEVICE], string, exception);
   }
 
-    // static valueOf(string: string): DeviceType | null {
-    //   let thiz = new DeviceType();
-
-    //   if (!thiz.parse(UrnType.DEVICE, string)) {
-    //     return null;
-    //   }
-
-    //   return thiz;
-    // }
+  public static parse(string: string): DeviceType {
+    return new DeviceType(string, true);
+  }
 }
