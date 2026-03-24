@@ -194,6 +194,7 @@ export * from './xiot/core/spec/codec/definition/type/EventTypeCodec';
 export * from './xiot/core/spec/codec/definition/type/GroupTypeCodec';
 export * from './xiot/core/spec/codec/definition/type/PropertyTypeCodec';
 export * from './xiot/core/spec/codec/definition/type/ServiceTypeCodec';
+export * from './xiot/core/spec/codec/definition/type/DeviceTypeCodec';
 export * from './xiot/core/spec/codec/definition/ActionDefinitionCodec';
 export * from './xiot/core/spec/codec/definition/ArgumentDefinitionCodec';
 export * from './xiot/core/spec/codec/definition/CategoryDefinitionCodec';
